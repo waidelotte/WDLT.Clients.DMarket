@@ -59,13 +59,13 @@ namespace WDLT.Clients.DMarket
             return base.RequestRawAsync(request, proxy);
         }
 
-        public Task<DMarketList> Items(EDMarketGame game, long priceFrom = 0, long priceTo = 0, EDMarketOrder? order = null, int limit = 50, string treeFilters = null, EDMarketType? type = null, string cursor = null)
+        public Task<DMarketList> Items(EDMarketGame game, long priceFrom = 0, long priceTo = 0, string currency = "USD", EDMarketOrder? order = null, int limit = 50, string treeFilters = null, EDMarketType? type = null, string cursor = null)
         {
             var request = new RestRequest("/exchange/v1/market/items");
             request.AddQueryParameter("limit", limit.ToString());
             request.AddQueryParameter("priceFrom", priceFrom.ToString());
             request.AddQueryParameter("priceTo", priceTo.ToString());
-            request.AddQueryParameter("currency", "USD");
+            request.AddQueryParameter("currency", currency);
             request.AddQueryParameter("GameID", game.NameAttribute());
             if (order != null) request.AddQueryParameter("orderBy", order.Value.NameAttribute());
             if (!string.IsNullOrEmpty(treeFilters)) request.AddQueryParameter("treeFilters", treeFilters);
