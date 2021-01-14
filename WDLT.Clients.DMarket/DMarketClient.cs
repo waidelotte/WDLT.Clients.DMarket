@@ -24,7 +24,7 @@ namespace WDLT.Clients.DMarket
             _client.AddDefaultHeader("X-Api-Key", _publicKey);
         }
 
-        public override Task<IRestResponse> RequestRawAsync(IRestRequest request, Proxy proxy = null)
+        protected override void OnBeforeRequest(RestClient client, IRestRequest request, Proxy proxy = null)
         {
             request.AddHeader("X-Sign-Date", DateTimeOffset.Now.ToUnixTimeSeconds().ToString());
 
@@ -55,8 +55,6 @@ namespace WDLT.Clients.DMarket
             var sigString = request.Method + patchString + DateTimeOffset.Now.ToUnixTimeSeconds();
             var sig = Utilities.BinaryToHex(PublicKeyAuth.SignDetached(sigString, Utilities.HexToBinary(_privateKey)));
             request.AddHeader("X-Request-Sign", $"dmar ed25519 {sig}");
-
-            return base.RequestRawAsync(request, proxy);
         }
 
         public Task<DMarketList> Items(EDMarketGame game, long priceFrom = 0, long priceTo = 0, string currency = "USD", EDMarketOrder? order = null, int limit = 50, string treeFilters = null, EDMarketType? type = null, string cursor = null)
