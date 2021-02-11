@@ -9,7 +9,7 @@ namespace WDLT.Clients.DMarket.Models
         public long? DMC { get; set; }
 
         [JsonProperty("USD")]
-        [JsonConverter(typeof(LongToPriceJsonConverter))]
+        [JsonConverter(typeof(LongToDoublePriceJsonConverter))]
         public double USD { get; set; }
     }
 }

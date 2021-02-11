@@ -16,7 +16,7 @@ namespace WDLT.Clients.DMarket
         private readonly string _publicKey;
         private readonly string _privateKey;
 
-        public DMarketClient(string publicKey, string privateKey) : base("https://api.dmarket.com")
+        public DMarketClient(string publicKey, string privateKey, string userAgent) : base("https://api.dmarket.com", userAgent)
         {
             _publicKey = publicKey;
             _privateKey = privateKey;
@@ -64,8 +64,8 @@ namespace WDLT.Clients.DMarket
             request.AddQueryParameter("priceFrom", priceFrom.ToString());
             request.AddQueryParameter("priceTo", priceTo.ToString());
             request.AddQueryParameter("currency", currency);
-            request.AddQueryParameter("GameID", game.NameAttribute());
-            if (order != null) request.AddQueryParameter("orderBy", order.Value.NameAttribute());
+            request.AddQueryParameter("GameID", game.EnumMemberAttribute());
+            if (order != null) request.AddQueryParameter("orderBy", order.Value.ToString().ToLower());
             if (!string.IsNullOrEmpty(treeFilters)) request.AddQueryParameter("treeFilters", treeFilters);
             if (type != null) request.AddQueryParameter("types", type.Value.ToString().ToLower());
             if (!string.IsNullOrEmpty(cursor)) request.AddQueryParameter("cursor", cursor);
